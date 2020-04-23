@@ -1,5 +1,5 @@
 import 'package:consultdocapp/nextmain.dart';
-import 'package:consultdocapp/onboarding.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Color(0xFF736EC3),
       body: FlareActor("assets/images/poi.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Untitled"),
     );
   }

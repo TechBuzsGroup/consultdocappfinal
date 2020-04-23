@@ -1,9 +1,10 @@
 import 'package:consultdocapp/Screens/Navbar.dart';
-import 'package:consultdocapp/onboarding.dart';
+import 'package:consultdocapp/Views/onboarding.dart';
+import 'package:consultdocapp/Services/phone_auth.dart';
 import 'package:flutter/material.dart';
 
 
-import 'package:consultdocapp/SignUp.dart';
+import 'package:consultdocapp/Login/SignUp.dart';
 
 import 'package:consultdocapp/widgets/provider_widget.dart';
 import 'package:consultdocapp/Services/auth.dart';
@@ -27,6 +28,7 @@ class NextMain extends StatelessWidget {
           '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
           '/anonymousSignIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.anonymous),
           '/convertUser': (BuildContext context) => SignUpView(authFormType: AuthFormType.convert),
+          '/OTP': (BuildContext context) => LoginScreen()
         },
       ),
     );

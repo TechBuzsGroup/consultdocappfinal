@@ -1,17 +1,14 @@
-import 'package:consultdocapp/Screens/Navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:consultdocapp/Services/auth.dart';
+import 'package:consultdocapp/services/auth.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
-
 import 'package:consultdocapp/widgets/provider_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'dart:io';
+import 'package:device_info/device_info.dart';
 
-
-
-
-final primaryColor = const Color(0xFF8fbc8f);
+// TODO move this to tone location
+final primaryColor = const Color(0xFF75A2EA);
 
 enum AuthFormType { signIn, signUp, reset, anonymous, convert }
 
@@ -27,6 +24,27 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   AuthFormType authFormType;
+  bool _showAppleSignIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _useAppleSignIn();
+  }
+
+  _useAppleSignIn() async {
+    if (Platform.isIOS) {
+      var deviceInfo = await DeviceInfoPlugin().iosInfo;
+      var version = deviceInfo.systemVersion;
+
+      if (double.parse(version) >= 13) {
+        setState(() {
+          _showAppleSignIn = true;
+        });
+      }
+    }
+  }
 
   _SignUpViewState({this.authFormType});
 
@@ -69,23 +87,23 @@ class _SignUpViewState extends State<SignUpView> {
         switch (authFormType) {
           case AuthFormType.signIn:
             await auth.signInWithEmailAndPassword(_email, _password);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BottomBarNavigationPatternExample()));
+            Navigator.of(context).pushReplacementNamed('/home');
             break;
           case AuthFormType.signUp:
             await auth.createUserWithEmailAndPassword(
                 _email, _password, _name);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BottomBarNavigationPatternExample()));
+            Navigator.of(context).pushReplacementNamed('/OTP');
             break;
           case AuthFormType.reset:
             await auth.sendPasswordResetEmail(_email);
-            _warning = "A password reset link has been sent to $_email";
             setState(() {
+              _warning = "A password reset link has been sent to $_email";
               authFormType = AuthFormType.signIn;
             });
             break;
           case AuthFormType.anonymous:
             await auth.singInAnonymously();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BottomBarNavigationPatternExample()));
+            Navigator.of(context).pushReplacementNamed('/home');
             break;
           case AuthFormType.convert:
             await auth.convertUserWithEmail(_email, _password, _name);
@@ -110,42 +128,46 @@ class _SignUpViewState extends State<SignUpView> {
       submit();
       return Scaffold(
           backgroundColor: primaryColor,
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SpinKitDoubleBounce(
-                color: Colors.white,
-              ),
-              Text(
-                "Loading",
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SpinKitDoubleBounce(
+                  color: Colors.white,
+                ),
+                Text(
+                  "Loading",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
           ));
     } else {
       return Scaffold(
-        body: Container(
-          color: primaryColor,
-          height: _height,
-          width: _width,
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: _height * 0.025),
-                showAlert(),
-                SizedBox(height: _height * 0.025),
-                buildHeaderText(),
-                SizedBox(height: _height * 0.05),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: buildInputs() + buildButtons(),
+        body: SingleChildScrollView(
+          child: Container(
+            color: primaryColor,
+            height: _height,
+            width: _width,
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: _height * 0.025),
+                  showAlert(),
+                  SizedBox(height: _height * 0.025),
+                  buildHeaderText(),
+                  SizedBox(height: _height * 0.05),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: buildInputs() + buildButtons(),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -213,18 +235,6 @@ class _SignUpViewState extends State<SignUpView> {
 
   List<Widget> buildInputs() {
     List<Widget> textFields = [];
-    if (authFormType == AuthFormType.reset) {
-      textFields.add(
-        TextFormField(
-          validator: EmailValidator.validate,
-          style: TextStyle(fontSize: 22.0),
-          decoration: buildSignUpInputDecoration("Email"),
-          onSaved: (value) => _email = value,
-        ),
-      );
-      textFields.add(SizedBox(height: 20));
-      return textFields;
-    }
 
     // if were in the sign up state add name
     if ([AuthFormType.signUp, AuthFormType.convert].contains(authFormType)) {
@@ -249,15 +259,18 @@ class _SignUpViewState extends State<SignUpView> {
       ),
     );
     textFields.add(SizedBox(height: 20));
-    textFields.add(
-      TextFormField(
-        validator: PasswordValidator.validate,
-        style: TextStyle(fontSize: 22.0),
-        decoration: buildSignUpInputDecoration("Password"),
-        obscureText: true,
-        onSaved: (value) => _password = value,
-      ),
-    );
+
+    if(authFormType != AuthFormType.reset) {
+      textFields.add(
+        TextFormField(
+          validator: PasswordValidator.validate,
+          style: TextStyle(fontSize: 22.0),
+          decoration: buildSignUpInputDecoration("Password"),
+          obscureText: true,
+          onSaved: (value) => _password = value,
+        ),
+      );
+    }
     textFields.add(SizedBox(height: 20));
 
     return textFields;
@@ -329,7 +342,7 @@ class _SignUpViewState extends State<SignUpView> {
           switchFormState(_newFormState);
         },
       ),
-      buildSocialIcons(_showSocial),
+      
     ];
   }
 
@@ -350,36 +363,7 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 
-  Widget buildSocialIcons(bool visible) {
-    final _auth = Provider.of(context).auth;
-    return Visibility(
-      child: Column(
-        children: <Widget>[
-          Divider(
-            color: Colors.white,
-          ),
-          SizedBox(height: 10),
-          GoogleSignInButton(
-            onPressed: () async {
-              try {
-                if(authFormType == AuthFormType.convert) {
-                  await _auth.converWithGoogle();
-                  Navigator.of(context).pop();
-                } else {
-                  await _auth.signInWithGoogle();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BottomBarNavigationPatternExample()));
-                }
-              } catch (e) {
-                setState(() {
-                  print(e);
-                  _warning = e.message;
-                });
-              }
-            },
-          )
-        ],
-      ),
-      visible: visible,
-    );
-  }
+  
+
+
 }

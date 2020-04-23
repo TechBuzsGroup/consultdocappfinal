@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -10,17 +11,27 @@ class AuthService {
             (FirebaseUser user) => user?.uid,
       );
 
+  // GET UID
+  Future<String> getCurrentUID() async {
+    return (await _firebaseAuth.currentUser()).uid;
+  }
+
+  // GET CURRENT USER
+  Future getCurrentUser() async {
+    return await _firebaseAuth.currentUser();
+  }
+
   // Email & Password Sign Up
   Future<String> createUserWithEmailAndPassword(String email, String password,
       String name) async {
-    final currentUser = await _firebaseAuth.createUserWithEmailAndPassword(
+    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     // Update the username
-    await updateUserName(name, currentUser);
-    return currentUser.uid;
+    await updateUserName(name, authResult.user);
+    return authResult.user.uid;
   }
 
   Future updateUserName(String name, FirebaseUser currentUser) async {
@@ -34,8 +45,7 @@ class AuthService {
   Future<String> signInWithEmailAndPassword(String email,
       String password) async {
     return (await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password))
-        .uid;
+        email: email, password: password)).user.uid;
   }
 
   // Sign Out
@@ -61,7 +71,7 @@ class AuthService {
     await updateUserName(name, currentUser);
   }
 
-  Future converWithGoogle() async {
+  Future convertWithGoogle() async {
     final currentUser = await _firebaseAuth.currentUser();
     final GoogleSignInAccount account = await _googleSignIn.signIn();
     final GoogleSignInAuthentication _googleAuth = await account.authentication;
@@ -81,10 +91,11 @@ class AuthService {
         idToken: _googleAuth.idToken,
         accessToken: _googleAuth.accessToken,
     );
-    return (await _firebaseAuth.signInWithCredential(credential)).uid;
+    return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
 
-  getCurrentUser() {}
+  // APPLE
+
 
 }
 

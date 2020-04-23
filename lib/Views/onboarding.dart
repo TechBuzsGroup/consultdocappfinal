@@ -1,5 +1,6 @@
-import 'package:consultdocapp/AfterFV.dart';
-import 'package:consultdocapp/Screens/Navbar.dart';
+
+import 'package:consultdocapp/Views/FView.dart';
+
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
@@ -207,7 +208,7 @@ class OnboardingScreen extends StatelessWidget {
           onPressed: (){
             Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => FirstView()),
+    MaterialPageRoute(builder: (context) => Fview()),
   );
           },
         ),
