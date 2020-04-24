@@ -1,4 +1,5 @@
 
+import 'package:consultdocapp/Views/AfterFV.dart';
 import 'package:consultdocapp/Views/FView.dart';
 
 import 'package:flutter/material.dart';
@@ -208,7 +209,7 @@ class OnboardingScreen extends StatelessWidget {
           onPressed: (){
             Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => Fview()),
+    MaterialPageRoute(builder: (context) => FirstView()),
   );
           },
         ),

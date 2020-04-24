@@ -31,7 +31,7 @@ class _BottomBarNavigationPatternExampleState extends State<BottomBarNavigationP
 
   
   int currentPage = 0;
-  final _pageOptions = [HomePage(),Page1(), Page2(), MyAccountPage()];
+  final _pageOptions = [HomePage(),Page1(),  MyAccountPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +42,7 @@ class _BottomBarNavigationPatternExampleState extends State<BottomBarNavigationP
         tabs: [
           TabData(iconData: Icons.home, title: ""),
           TabData(iconData: Icons.book, title: ""),
-          TabData(iconData: Icons.stars, title: ""),
+          
           TabData(iconData: Icons.account_circle, title: "")
         ],
         onTabChangedListener: (int position) {
