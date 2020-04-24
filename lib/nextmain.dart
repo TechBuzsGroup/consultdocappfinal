@@ -24,11 +24,11 @@ class NextMain extends StatelessWidget {
         home: HomeController(),
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => HomeController(),
-          '/signUp': (BuildContext context) => SignUpView(authFormType: AuthFormType.signUp),
-          '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
-          '/anonymousSignIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.anonymous),
-          '/convertUser': (BuildContext context) => SignUpView(authFormType: AuthFormType.convert),
-          '/OTP': (BuildContext context) => LoginScreen()
+          '/signUp': (BuildContext context) => Login(),
+          '/signIn': (BuildContext context) => Login(),
+          '/anonymousSignIn': (BuildContext context) => Login(),
+          
+          '/OTP': (BuildContext context) => Login()
         },
       ),
     );

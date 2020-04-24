@@ -25,11 +25,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF736EC3),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text("Dashboard"),
+        title: Text("Dashboard") ,
         actions: <Widget>[
 
         IconButton(icon: Icon(Icons.notifications), onPressed: (){
