@@ -34,10 +34,9 @@ class _HomePageState extends State<HomePage> {
         iconTheme: IconThemeData(
             color: Colors.black87
         ),
+      automaticallyImplyLeading: false,
       ),
-      drawer: Drawer(
-          child: Container()// Populate the Drawer in the next step.
-      ),
+    
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
@@ -51,25 +50,7 @@ class _HomePageState extends State<HomePage> {
                 fontSize: 30,
                 fontWeight: FontWeight.w600
               ),),
-              SizedBox(height: 40,),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Color(0xffEFEFEF),
-                  borderRadius: BorderRadius.circular(14)
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.search),
-                    SizedBox(width: 10,),
-                    Text("Search", style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 19
-                    ),)
-                  ],
-                ),
-              ),
+
               SizedBox(height: 30,),
               Text("Categories", style: TextStyle(
                   color: Colors.black87.withOpacity(0.8),
@@ -223,12 +204,12 @@ class DoctorsTile extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Dr. Stefeni Albert", style: TextStyle(
+                Text("Dr. Adaobi Solarin", style: TextStyle(
                   color: Color(0xffFC9535),
                   fontSize: 19
                 ),),
                 SizedBox(height: 2,),
-                Text("Heart Speailist", style: TextStyle(
+                Text("Paedratic Speailist", style: TextStyle(
                   fontSize: 15
                 ),)
               ],

@@ -1,4 +1,3 @@
-import 'package:consultdocapp/Facebook.dart';
 import 'package:flutter/material.dart';
 import 'package:consultdocapp/Services/auth.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -6,28 +5,28 @@ import 'package:consultdocapp/widgets/provider_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:consultdocapp/Animations/FadeAnimation.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:consultdocapp/Services/fb.dart';
+
 
 // TODO move this to tone location
-enum AuthMode { Signup, Login }
+enum AuthMode { SignupDoc, LoginDoc }
 
 final primaryColor = Colors.blue;
 
-enum AuthFormType { signIn, signUp, reset, anonymous, convert }
-class Login extends StatefulWidget {
+enum AuthFormTypeDoc { signIn, signUp, reset, anonymous, convert }
+class LoginDoc extends StatefulWidget {
 
-  final AuthFormType authFormType;
+  final AuthFormTypeDoc authFormType;
 
-  Login({Key key, @required this.authFormType}) : super(key: key);
+  LoginDoc({Key key, @required this.authFormType}) : super(key: key);
     @override
-  _LoginState createState() =>
-   _LoginState(authFormType: this.authFormType);
+  _LoginDocState createState() =>
+   _LoginDocState(authFormType: this.authFormType);
 }
 
-class _LoginState extends State<Login> {
- AuthFormType authFormType;
+class _LoginDocState extends State<LoginDoc> {
+ AuthFormTypeDoc authFormType;
 
-  _LoginState({this.authFormType});
+  _LoginDocState({this.authFormType});
     final formKey = GlobalKey<FormState>();
   String _email, _password, _name, _warning;
 
@@ -35,13 +34,13 @@ class _LoginState extends State<Login> {
     formKey.currentState.reset();
     if (state == "signUp") {
       setState(() {
-        authFormType = AuthFormType.signUp;
+        authFormType = AuthFormTypeDoc.signUp;
       });
     } else if (state == 'home') {
       Navigator.of(context).pop();
     } else {
       setState(() {
-        authFormType = AuthFormType.signIn;
+        authFormType = AuthFormTypeDoc.signIn;
       });
     }
   }
@@ -49,7 +48,7 @@ class _LoginState extends State<Login> {
 
   bool validate() {
     final form = formKey.currentState;
-    if (authFormType == AuthFormType.anonymous) {
+    if (authFormType == AuthFormTypeDoc.anonymous) {
       return true;
     }
     form.save();
@@ -66,27 +65,27 @@ class _LoginState extends State<Login> {
       try {
         final auth = Provider.of(context).auth;
         switch (authFormType) {
-          case AuthFormType.signIn:
+          case AuthFormTypeDoc.signIn:
             await auth.signInWithEmailAndPassword(_email, _password);
             Navigator.of(context).pushReplacementNamed('/home');
             break;
-          case AuthFormType.signUp:
+          case AuthFormTypeDoc.signUp:
             await auth.createUserWithEmailAndPassword(
                 _email, _password, _name);
             Navigator.of(context).pushReplacementNamed('/home');
             break;
-          case AuthFormType.reset:
+          case AuthFormTypeDoc.reset:
             await auth.sendPasswordResetEmail(_email);
             _warning = "A password reset link has been sent to $_email";
             setState(() {
-              authFormType = AuthFormType.signIn;
+              authFormType = AuthFormTypeDoc.signIn;
             });
             break;
-          case AuthFormType.anonymous:
+          case AuthFormTypeDoc.anonymous:
             await auth.singInAnonymously();
             Navigator.of(context).pushReplacementNamed('/home');
             break;
-          case AuthFormType.convert:
+          case AuthFormTypeDoc.convert:
             await auth.convertUserWithEmail(_email, _password, _name);
             Navigator.of(context).pop();
             break;
@@ -112,7 +111,7 @@ class _LoginState extends State<Login> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-       color: Color(0xFF5bd75b)
+       color: Color(0xFF6495ed)
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +122,7 @@ class _LoginState extends State<Login> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,  //m8Oq9ycK9VntE8mk8om5yoQbB10=   first one
                 children: <Widget>[
-                  Center(child: FadeAnimation(1, buildHeaderText(),), ),
+                  Center(child: FadeAnimation(5, buildHeaderText() ,), ),
                   
                   SizedBox(height: 10,),
                   
@@ -134,7 +133,7 @@ class _LoginState extends State<Login> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                         color: Color(0xFF32cd32),
+                         color: Color(0xFFedbc64),
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(60), topRight: Radius.circular(60))
                 ),
                 child: SingleChildScrollView(
@@ -155,7 +154,7 @@ class _LoginState extends State<Login> {
                   child: Form(
                     key: formKey,
                     child: Column(
-                      children: buildInputs(),
+                      children: buildInputs() + buildButtons(),
                     ),
                   ),
                 ),
@@ -167,71 +166,17 @@ class _LoginState extends State<Login> {
             Container(
                   
                     child: Column(
-                      children:buildButtons(),
+                      
                     ),
                   
             )
             ),
                        
                      
-                        SizedBox(height: 0,),
-                        FadeAnimation(1.7, Text("Continue with social media", style: TextStyle(color: Colors.white),)),
-                        SizedBox(height: 30,),
+                       
                         Row(
                           children: <Widget>[
-                            Expanded(
-                              child: FadeAnimation(1.8, Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.blue
-                                ),
-                                child: Center(
-                                  child: FlatButton(
-                                    child: Text("Facebook", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                               onPressed: (){
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) => Facebook()));
-                               },
-                                )
-                                
-                                ),
-                              )),
-                            ),
-                            SizedBox(width: 30,),
-                            Expanded(
-                              child: FadeAnimation(1.9, Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.white
-                                ),
-                                child: Center(
-                                  
-                                  child: FlatButton(
-                                    
-                                   child: Text("Google", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),),
-                                 
-                                               onPressed: () async {
-                     try {
-                   if(authFormType == AuthFormType.convert) {
-                  await _auth.convertWithGoogle();
-                  Navigator.of(context).pop();
-                } else {
-                  await _auth.signInWithGoogle();
-                  Navigator.of(context).pushReplacementNamed('/home');
-                }
-              } catch (e) {
-                setState(() {
-                  print(e);
-                  _warning = e.message;
-                });
-              }
-            
-                                 },
-                                  ) 
-                                ),
-                              )),
-                            )
+                      
                           ],
                         )
                       ],
@@ -288,17 +233,19 @@ class _LoginState extends State<Login> {
 
 AutoSizeText buildHeaderText() {
     String _headerText;
-    if (authFormType == AuthFormType.signIn) {
-      _headerText = "Sign In";
-    } else if (authFormType == AuthFormType.reset) {
+    String _headerText1;
+    if (authFormType == AuthFormTypeDoc.signIn) {
+      _headerText = "Doctor\nSign In";
+     
+    } else if (authFormType == AuthFormTypeDoc.reset) {
       _headerText = "Reset Password";
     } else {
       _headerText = "Create New Account";
     }
     return AutoSizeText(
       _headerText,
-      maxLines: 1,
-      textAlign: TextAlign.center,
+      maxLines: 2,
+      
       style: TextStyle(
         fontSize: 35,
         color: Colors.white,
@@ -309,7 +256,7 @@ AutoSizeText buildHeaderText() {
 
     List<Widget> buildInputs() {
     List<Widget> textFields = [];
-    if (authFormType == AuthFormType.reset) {
+    if (authFormType == AuthFormTypeDoc.reset) {
       textFields.add(
         TextFormField(
           validator: EmailValidator.validate,
@@ -323,7 +270,7 @@ AutoSizeText buildHeaderText() {
     }
 
     // if were in the sign up state add name
-    if ([AuthFormType.signUp, AuthFormType.convert].contains(authFormType)) {
+    if ([AuthFormTypeDoc.signUp, AuthFormTypeDoc.convert].contains(authFormType)) {
       textFields.add(
         TextFormField(
           validator: NameValidator.validate,
@@ -377,17 +324,17 @@ AutoSizeText buildHeaderText() {
     bool _showForgotPassword = false;
     bool _showSocial = true;
 
-    if (authFormType == AuthFormType.signIn) {
-      _switchButtonText = "Create New Account";
-      _newFormState = "signUp";
+    if (authFormType == AuthFormTypeDoc.signIn) {
+      _switchButtonText = "";
+      _newFormState = "";
       _submitButtonText = "Sign In";
       _showForgotPassword = true;
-    } else if (authFormType == AuthFormType.reset) {
+    } else if (authFormType == AuthFormTypeDoc.reset) {
       _switchButtonText = "Return to Sign In";
       _newFormState = "signIn";
       _submitButtonText = "Submit";
       _showSocial = false;
-    } else if (authFormType == AuthFormType.convert) {
+    } else if (authFormType == AuthFormTypeDoc.convert) {
       _switchButtonText = "Cancel";
       _newFormState = "home";
       _submitButtonText = "Sign Up";
@@ -415,16 +362,7 @@ AutoSizeText buildHeaderText() {
           onPressed: submit,
         ),
       ),
-      showForgotPassword(_showForgotPassword),
-      FlatButton(
-        child: Text(
-          _switchButtonText,
-          style: TextStyle(color: Colors.white),
-        ),
-        onPressed: () {
-          switchFormState(_newFormState);
-        },
-      ),
+     
       
     ];
   }
@@ -434,15 +372,15 @@ AutoSizeText buildHeaderText() {
     bool _showForgotPassword = false;
     bool _showSocial = true;
 
-    if (authFormType == AuthFormType.signIn) {
+    if (authFormType == AuthFormTypeDoc.signIn) {
       _switchButtonText = "Create New Account";
      
       _showForgotPassword = true;
-    } else if (authFormType == AuthFormType.reset) {
+    } else if (authFormType == AuthFormTypeDoc.reset) {
       _switchButtonText = "Return to Sign In";
   
       _showSocial = false;
-    } else if (authFormType == AuthFormType.convert) {
+    } else if (authFormType == AuthFormTypeDoc.convert) {
       _switchButtonText = "Cancel";
 
     } else {
@@ -491,7 +429,7 @@ AutoSizeText buildHeaderText() {
         ),
         onPressed: () {
           setState(() {
-            authFormType = AuthFormType.reset;
+            authFormType = AuthFormTypeDoc.reset;
           });
         },
       ),

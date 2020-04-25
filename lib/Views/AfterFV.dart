@@ -3,7 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:consultdocapp/widgets/custom_dialog.dart';
 
 class FirstView extends StatelessWidget {
-  final primaryColor = const Color(0xFF736EC3);
+  final primaryColor = const Color(0xFFd75b5b);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +21,6 @@ class FirstView extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 SizedBox(height: _height * 0.10),
-                Text(
-                  "Welcome",
-                  style: TextStyle(fontSize: 44, color: Colors.white),
-                ),
-                SizedBox(height: _height * 0.10),
                 AutoSizeText(
                   "Get Started By Signing Up",
                   maxLines: 2,
@@ -35,7 +30,7 @@ class FirstView extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: _height * 0.15),
+                SizedBox(height: _height * 0.25),
                 RaisedButton(
                   color: Colors.greenAccent,
                   shape: RoundedRectangleBorder(
@@ -53,6 +48,7 @@ class FirstView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('/signInDoc');
                     
                   },
                 ),

@@ -1,3 +1,4 @@
+import 'package:consultdocapp/Login/DocSignIN.dart';
 import 'package:consultdocapp/Screens/Navbar.dart';
 import 'package:consultdocapp/Views/onboarding.dart';
 import 'package:consultdocapp/Services/phone_auth.dart';
@@ -26,6 +27,7 @@ class NextMain extends StatelessWidget {
           '/home': (BuildContext context) => HomeController(),
           '/signUp': (BuildContext context) => Login(authFormType: AuthFormType.signUp),
           '/signIn': (BuildContext context) => Login(authFormType: AuthFormType.signIn),
+          '/signInDoc': (BuildContext context) => LoginDoc(authFormType: AuthFormTypeDoc.signIn),
           '/anonymousSignIn': (BuildContext context) => Login(authFormType: AuthFormType.anonymous),
           '/convertUser': (BuildContext context) => Login(authFormType: AuthFormType.convert),
           '/OTP': (BuildContext context) => LoginScreen()
