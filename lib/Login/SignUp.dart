@@ -190,7 +190,7 @@ class _LoginState extends State<Login> {
                                   child: FlatButton(
                                     child: Text("Facebook", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                                onPressed: (){
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) => Facebook()));
+                                
                                },
                                 )
                                 

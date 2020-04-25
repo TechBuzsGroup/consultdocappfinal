@@ -39,8 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF736EC3),
-      body: FlareActor("assets/images/poi.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Untitled"),
+      backgroundColor: Color(0xFF36CEEE),
+      body: FlareActor("assets/images/FINAL.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Untitled"),
     );
   }
 }
