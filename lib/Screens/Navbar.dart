@@ -1,10 +1,11 @@
+import 'package:consultdocapp/Screens/myaccountpage.dart';
 import 'package:consultdocapp/Screens/myorderspage.dart';
 import 'package:consultdocapp/Screens/page2.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:consultdocapp/Screens/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:consultdocapp/Screens/myaccountpage.dart';
+import 'package:consultdocapp/Screens/profile.dart';
 
 
  

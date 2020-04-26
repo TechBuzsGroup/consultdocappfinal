@@ -1,11 +1,21 @@
 
+import 'package:consultdocapp/Login/user.dart';
+import 'package:consultdocapp/Services/database.dart';
+import 'package:consultdocapp/Views/locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:consultdocapp/Services/firestore_service.dart';
 
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirestoreService _firestoreService = locator<FirestoreService>();
+
+
+
+  User _currentUser;
+  User get currentUser => _currentUser;
 
   Stream<String> get onAuthStateChanged =>
       _firebaseAuth.onAuthStateChanged.map(
@@ -30,14 +40,23 @@ class AuthService {
       password: password,
     );
 
+
+_currentUser = User(
+        id: authResult.user.uid,
+        email: email,
+        displayname: name,
+        
+      );
     // Update the username
     await updateUserName(name, authResult.user);
+    
     return authResult.user.uid;
   }
 
   Future updateUserName(String name, FirebaseUser currentUser) async {
     var userUpdateInfo = UserUpdateInfo();
     userUpdateInfo.displayName = name;
+    await _firestoreService.createUser(_currentUser);
     await currentUser.updateProfile(userUpdateInfo);
     await currentUser.reload();
   }
@@ -99,6 +118,22 @@ class AuthService {
 
 //Facebook
 
+
+
+  Future<bool> isUserLoggedIn() async {
+    var user = await _firebaseAuth.currentUser();
+    await _populateCurrentUser(user);
+    return user != null;
+  }
+
+
+
+
+Future _populateCurrentUser(FirebaseUser user) async {
+    if (user != null) {
+      _currentUser = await _firestoreService.getUser(user.uid);
+    }
+  }
 
 
 }

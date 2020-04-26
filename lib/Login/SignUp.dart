@@ -176,7 +176,10 @@ class _LoginState extends State<Login> {
                      
                         SizedBox(height: 0,),
                         FadeAnimation(1.7, Text("Continue with social media", style: TextStyle(color: Colors.white),)),
-                        SizedBox(height: 30,),
+                        SizedBox(height: 10)
+                        ,
+                      
+                        SizedBox(height: 50,),
                         Row(
                           children: <Widget>[
                             Expanded(
@@ -228,11 +231,21 @@ class _LoginState extends State<Login> {
               }
             
                                  },
+                                  
                                   ) 
+                                
                                 ),
                               )),
                             )
+                          
                           ],
+                        ),
+                         SizedBox(height: 30),
+                         FadeAnimation(3, FlatButton(child:Text('By continueing, you agree to Terms & Conditions', style: TextStyle(color: Colors.white, fontSize: 12, ),              ),          
+                        onPressed: (){
+                     Navigator.of(context).pushReplacementNamed('/Terms');
+                        },
+                        )
                         )
                       ],
                     ),
@@ -328,7 +341,7 @@ AutoSizeText buildHeaderText() {
         TextFormField(
           validator: NameValidator.validate,
           style: TextStyle(fontSize: 22.0),
-          decoration: buildSignUpInputDecoration("Name"),
+          decoration: buildSignUpInputDecoration("Full Name"),
           onSaved: (value) => _name = value,
         ),
       );

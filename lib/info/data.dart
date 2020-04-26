@@ -1,5 +1,9 @@
 import 'package:consultdocapp/model/speciality.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+
 
 List<SpecialityModel> getSpeciality(){
 
@@ -8,8 +12,8 @@ List<SpecialityModel> getSpeciality(){
 
   //1
   specialityModel.noOfDoctors = 10;
-  specialityModel.speciality = "Nephlorolgy";
-  specialityModel.imgAssetPath = "assets/img1.png";
+  specialityModel.speciality = "Paedratic Specialist";
+  specialityModel.imgAssetPath = "assets/images/home1.png";
   specialityModel.backgroundColor = Color(0xffFBB97C);
   specialities.add(specialityModel);
 
@@ -34,4 +38,21 @@ List<SpecialityModel> getSpeciality(){
   specialityModel = new SpecialityModel();
 
   return specialities;
+}
+
+
+class DatabaseService {
+ final String uid;
+    DatabaseService({ this.uid});
+
+final CollectionReference docCategory = Firestore.instance.collection('DocCategories');
+
+Future updateUserData(int noOfDoctor, String specialilty,  ) async {
+  return await docCategory.document(uid).setData({
+'specialilty' : specialilty,
+ 'noOfDoctors' : noOfDoctor,
+
+  });
+}
+
 }

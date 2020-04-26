@@ -37,11 +37,11 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Dr. Stefeni Albert",
+                          "Dr. Adaobi Solarin",
                           style: TextStyle(fontSize: 32),
                         ),
                         Text(
-                          "Heart Speailist",
+                          "Child Speailist",
                           style: TextStyle(fontSize: 19, color: Colors.grey),
                         ),
                         SizedBox(
@@ -49,18 +49,12 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                         ),
                         Row(
                           children: <Widget>[
-                            IconTile(
-                              backColor: Color(0xffFFECDD),
-                              imgAssetPath: "assets/email.png",
-                            ),
-                            IconTile(
-                              backColor: Color(0xffFEF2F0),
-                              imgAssetPath: "assets/call.png",
-                            ),
-                            IconTile(
-                              backColor: Color(0xffEBECEF),
-                              imgAssetPath: "assets/video_call.png",
-                            ),
+                            Icon(Icons.email, ),
+                            SizedBox(width: 10,),
+                            Icon(Icons.call, )
+                            ,
+                            SizedBox(width: 10,),
+                            Icon(Icons.video_call, ),
                           ],
                         )
                       ],
@@ -91,9 +85,9 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Image.asset("assets/mappin.png"),
+                          Icon(Icons.map),
                           SizedBox(
-                            width: 20,
+                            width: 10,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,15 +116,15 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                       ),
                       Row(
                         children: <Widget>[
-                          Image.asset("assets/clock.png"),
+                          Icon(Icons.access_time),
                           SizedBox(
-                            width: 20,
+                            width: 10,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Daily Practict",
+                                "Daily Time",
                                 style: TextStyle(
                                     color: Colors.black87.withOpacity(0.7),
                                     fontSize: 20),
@@ -152,7 +146,7 @@ Open till 7 Pm''',
                     ],
                   ),
                   Image.asset(
-                    "assets/map.png",
+                    "assets/images/map.png",
                     width: 180,
                   )
                 ],
@@ -180,16 +174,13 @@ Open till 7 Pm''',
                         children: <Widget>[
                           Container(
                             padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Color(0xffFCCA9B),
-                              borderRadius: BorderRadius.circular(16)
-                            ),
-                              child: Image.asset("assets/list.png")),
+                           
+                              child: Icon(Icons.list)),
                           SizedBox(
-                            width: 16,
+                            width: 0,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width/2 - 130,
+                            width: MediaQuery.of(context).size.width/2 - 110,
                             child: Text(
                               "List Of Schedule",
                               style: TextStyle(color: Colors.white,
@@ -221,14 +212,19 @@ Open till 7 Pm''',
                             width: 16,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width/2 - 130,
+                            width: MediaQuery.of(context).size.width/2 - 110,
                             child: Text(
                               "Doctor's Daily Post",
                               style: TextStyle(color: Colors.white,
                                   fontSize: 17),
+                            
                             ),
-                          )
+                         
+                          ),
+                          
+                        
                         ],
+                      
                       ),
                     ),
                   ),

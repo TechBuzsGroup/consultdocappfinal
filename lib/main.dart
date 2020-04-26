@@ -1,9 +1,14 @@
+import 'package:consultdocapp/Views/locator.dart';
 import 'package:consultdocapp/nextmain.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
-void main() => runApp(MyApp());
+void main() { 
+  setupLocator();
+  runApp(MyApp());
+  
+  }
 
 class MyApp extends StatelessWidget {
 

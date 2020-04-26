@@ -2,6 +2,7 @@ import 'package:consultdocapp/info/data.dart';
 import 'package:consultdocapp/model/speciality.dart';
 import 'package:consultdocapp/Home/doctor_info.dart';
 import 'package:flutter/material.dart';
+import 'package:consultdocapp/Animations/FadeAnimation.dart';
 
 String selectedCategorie= "Adults";
 
@@ -27,37 +28,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        brightness: Brightness.light,
-        iconTheme: IconThemeData(
-            color: Colors.black87
-        ),
-      automaticallyImplyLeading: false,
-      ),
+
     
       body: SingleChildScrollView(
         child: Container(
+          
           color: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 10,horizontal: 24),
           child: Column(
+
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 10,),
+              SizedBox(height: 50,),
+              FadeAnimation(2,
               Text("Find Your \nConsultation", style: TextStyle(
                 color: Colors.black87.withOpacity(0.8),
                 fontSize: 30,
                 fontWeight: FontWeight.w600
-              ),),
+              ),),),
 
               SizedBox(height: 30,),
+              FadeAnimation(2, 
               Text("Categories", style: TextStyle(
                   color: Colors.black87.withOpacity(0.8),
                   fontSize: 25,
                   fontWeight: FontWeight.w600
-              ),),
+              ),),),
               SizedBox(height: 20,),
+              FadeAnimation(.5, 
               Container(
                 height: 30,
                 child: ListView.builder(
@@ -72,8 +70,9 @@ class _HomePageState extends State<HomePage> {
                     context: this,
                   );
                     }),
-              ),
+              ),),
               SizedBox(height: 20,),
+              FadeAnimation(1, 
               Container(
                 height: 250,
                 child: ListView.builder(
@@ -89,15 +88,18 @@ class _HomePageState extends State<HomePage> {
                         backColor: specialities[index].backgroundColor,
                       );
                     }),
-              ),
+              ),),
               SizedBox(height: 20,),
-              Text("Doctos", style: TextStyle(
+              FadeAnimation(.5, 
+              Text("Doctors", style: TextStyle(
                   color: Colors.black87.withOpacity(0.8),
                   fontSize: 25,
                   fontWeight: FontWeight.w600
-              ),),
+              ),),),
               SizedBox(height: 20,),
-              DoctorsTile()
+              DoctorsTile(),
+              SizedBox(height: 20,),
+              DoctorsTile1() 
             ],
           ),
         ),
@@ -154,6 +156,7 @@ class SpecialistTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       width: 150,
       margin: EdgeInsets.only(right: 16),
@@ -162,6 +165,7 @@ class SpecialistTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(24)
       ),
       padding: EdgeInsets.only(top: 16,right: 16,left: 16),
+      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -170,10 +174,11 @@ class SpecialistTile extends StatelessWidget {
             fontSize: 20
           ),),
           SizedBox(height: 6,),
+          FadeAnimation(1, 
           Text("$noOfDoctors Doctors", style: TextStyle(
             color: Colors.white,
             fontSize: 13
-          ),),
+          ),),),
           Image.asset(imgAssetPath, height: 160,fit: BoxFit.fitHeight,)
         ],
       ),
@@ -197,10 +202,12 @@ class DoctorsTile extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(horizontal: 24,
         vertical: 18),
+        
         child: Row(
           children: <Widget>[
             Image.asset("assets/doctor_pic.png", height: 50,),
             SizedBox(width: 17,),
+            FadeAnimation(1, 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -213,7 +220,7 @@ class DoctorsTile extends StatelessWidget {
                   fontSize: 15
                 ),)
               ],
-            ),
+            ),),
             Spacer(),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15,
@@ -222,18 +229,86 @@ class DoctorsTile extends StatelessWidget {
                 color: Color(0xffFBB97C),
                 borderRadius: BorderRadius.circular(13)
               ),
-              child: Text("Call", style: TextStyle(
+              child: FlatButton(
+                child: Text("Call", style: TextStyle(
                 color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.w500
-              ),),
+              ),), onPressed: (){
+                
+              }, ) 
+              
             )
           ],
+      
         ),
+      
+      
       ),
     ); 
   }
 }
 
 
-
+class DoctorsTile1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => DoctorsInfo()
+        ));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xffFFEEE0),
+          borderRadius: BorderRadius.circular(20)
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 24,
+        vertical: 18),
+        
+        child: Row(
+          children: <Widget>[
+            Image.asset("assets/doctor_pic.png", height: 50,),
+            SizedBox(width: 17,),
+            FadeAnimation(1, 
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Dr. Adaobi Solarin", style: TextStyle(
+                  color: Color(0xffFC9535),
+                  fontSize: 19
+                ),),
+                SizedBox(height: 2,),
+                Text("Paedratic Speailist", style: TextStyle(
+                  fontSize: 15
+                ),)
+              ],
+            ),),
+            Spacer(),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15,
+              vertical: 9),
+              decoration: BoxDecoration(
+                color: Color(0xffFBB97C),
+                borderRadius: BorderRadius.circular(13)
+              ),
+              child: FlatButton(
+                child: Text("Call", style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w500
+              ),), onPressed: (){
+                
+              }, ) 
+              
+            )
+          ],
+      
+        ),
+      
+      
+      ),
+    ); 
+  }
+}

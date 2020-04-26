@@ -1,7 +1,5 @@
 
 import 'package:consultdocapp/Views/AfterFV.dart';
-import 'package:consultdocapp/Views/FView.dart';
-
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
@@ -23,7 +21,7 @@ class OnboardingScreen extends StatelessWidget {
       fontFamily: "Product Sans");
 
   static const TextStyle greyStyle =
-      TextStyle(fontSize: 40.0, color: Colors.grey, fontFamily: "Product Sans");
+      TextStyle(fontSize: 40.0, color: Colors.black, fontFamily: "Product Sans");
         static const TextStyle whiteStyle =
       TextStyle(fontSize: 40.0, color: Colors.white, fontFamily: "Product Sans");
 
@@ -35,7 +33,7 @@ class OnboardingScreen extends StatelessWidget {
   );
 
   static const TextStyle descriptionGreyStyle = TextStyle(
-    color: Colors.grey,
+    color: Colors.black,
     fontSize: 20.0,
     fontFamily: "Product Sans",
   );
@@ -86,7 +84,7 @@ class OnboardingScreen extends StatelessWidget {
                 Text(
                   "At ConsultDoc\n"
                   "You Can Get A Doctor\n"
-                  "And Dicuss",
+                  "And Get Consultation",
                   style: descriptionGreyStyle,
                 ),
               
@@ -116,6 +114,7 @@ class OnboardingScreen extends StatelessWidget {
           ),
           
           Image.asset("assets/images/doctora.gif"),
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Column(
