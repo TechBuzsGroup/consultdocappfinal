@@ -11,12 +11,13 @@ List<SpecialityModel> getSpeciality(){
   SpecialityModel specialityModel = new SpecialityModel();
 
   //1
+
+    
   specialityModel.noOfDoctors = 10;
   specialityModel.speciality = "Paedratic Specialist";
   specialityModel.imgAssetPath = "assets/images/home1.png";
   specialityModel.backgroundColor = Color(0xffFBB97C);
   specialities.add(specialityModel);
-
   specialityModel = new SpecialityModel();
 
   //2
@@ -55,4 +56,18 @@ Future updateUserData(int noOfDoctor, String specialilty,  ) async {
   });
 }
 
+}
+
+
+class Datanase extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder( 
+      stream: Firestore.instance.collection('Specialility').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Text('');
+      }
+      
+    );
+  }
 }

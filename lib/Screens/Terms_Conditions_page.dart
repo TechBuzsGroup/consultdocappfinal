@@ -1,18 +1,15 @@
+// TODO Implement this library.
 import 'package:flutter/material.dart';
 
 
 
-class TandC extends StatefulWidget {
-  @override
-  _TandCState createState() => _TandCState();
-}
-
-class _TandCState extends State<TandC> {
+class TandC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blueAccent,),
-      backgroundColor: Colors.lightGreenAccent,
+      backgroundColor: Colors.pink,
     );
   }
 }
+
+

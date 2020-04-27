@@ -82,6 +82,7 @@ class _UpperSectionState extends State<UpperSection> {
         SizedBox(height: 150.0),
     Center(
       child: FlatButton(
+        
                 child: Text('Log Out'), 
                color: Colors.blue,
               onPressed: () async {
@@ -94,8 +95,30 @@ class _UpperSectionState extends State<UpperSection> {
               }
               },
       )
+      
+    ),
+    SizedBox(height: 20),
+    Center(
+      child: FlatButton(child: Text('Edit Profile'),
+      onPressed: (){
+        Navigator.of(context).pushReplacementNamed('/Ppst');
+
+      },
+      )
+    ),
+
+
+        SizedBox(height: 20),
+    Center(
+      child: FlatButton(child: Text('ui Profile'),
+      onPressed: (){
+        Navigator.of(context).pushReplacementNamed('/John');
+
+      },
+      )
     )
       ],
+    
     );
   }
 }

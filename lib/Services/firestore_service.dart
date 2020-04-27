@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:consultdocapp/Login/user.dart';
 
+
 class FirestoreService {
   final CollectionReference _usersCollectionReference =
       Firestore.instance.collection('users');
@@ -21,4 +22,6 @@ class FirestoreService {
       return e.message;
     }
   }
+
+  
 }

@@ -1,3 +1,4 @@
+import 'package:consultdocapp/Screens/payments.dart';
 import 'package:consultdocapp/info/data.dart';
 import 'package:consultdocapp/model/speciality.dart';
 import 'package:consultdocapp/Home/doctor_info.dart';
@@ -145,6 +146,7 @@ class _CategorieTileState extends State<CategorieTile> {
   }
 }
 
+
 class SpecialistTile extends StatelessWidget {
 
   final String imgAssetPath;
@@ -235,6 +237,7 @@ class DoctorsTile extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: FontWeight.w500
               ),), onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Payment()),);
                 
               }, ) 
               
