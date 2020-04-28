@@ -1,11 +1,20 @@
-import 'package:consultdocapp/Screens/payments.dart';
+
+import 'package:consultdocapp/Screens/Service_breakdown.dart';
+import'package:consultdocapp/Payment/payments.dart';
+import 'package:consultdocapp/Screens/VideoChat/main.dart';
+import 'package:consultdocapp/Screens/VideoChat/screens/home_screen.dart';
+import'package:consultdocapp/Screens/h.dart';
+
 import 'package:consultdocapp/info/data.dart';
 import 'package:consultdocapp/model/speciality.dart';
 import 'package:consultdocapp/Home/doctor_info.dart';
+import 'package:consultdocapp/widgets/src/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:consultdocapp/Animations/FadeAnimation.dart';
+import 'package:flutter/rendering.dart';
 
-String selectedCategorie= "Adults";
+
+String selectedCategorie= "Children";
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  List<String> categories = ["Adults","Childrens","Womens","Mens"];
+  List<String> categories = ["Children",""];
 
   List<SpecialityModel> specialities;
 
@@ -72,24 +81,51 @@ class _HomePageState extends State<HomePage> {
                   );
                     }),
               ),),
-              SizedBox(height: 20,),
-              FadeAnimation(1, 
-              Container(
-                height: 250,
-                child: ListView.builder(
-                    itemCount: specialities.length,
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index){
-                      return SpecialistTile(
-                        imgAssetPath: specialities[index].imgAssetPath,
-                        speciality: specialities[index].speciality,
-                        noOfDoctors: specialities[index].noOfDoctors,
-                        backColor: specialities[index].backgroundColor,
-                      );
-                    }),
-              ),),
+                      SizedBox(height: 20,),
+                           Container(
+              height: 280,
+              width: double.infinity,
+              child: ListView(
+                padding: EdgeInsets.only(bottom: 20, left: 20),
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  FadeAnimation(1.3, GestureDetector(
+                    child: Container(child: makeCard(
+                    context: context,
+                    startColor: Color.fromRGBO(251, 121, 155, 1),
+                    endColor: Color.fromRGBO(251, 53, 105, 1),
+                    image: 'assets/socks-one.png',
+                    icon: 'Child Care'
+                  ), ),
+                      
+                  onTap: () {
+                    Navigator.push(context, (MaterialPageRoute(builder: (context) => DocPay())));
+                  },
+                  )
+               ),
+                  FadeAnimation(1.4, makeCard(
+                    context: context,
+                    startColor: Color.fromRGBO(203, 251, 255, 1),
+                    endColor: Color.fromRGBO(81, 223, 234, 1),
+                    image: 'assets/socks-two.png',
+                    icon: 'access_time'
+                    
+                  )),
+                    FadeAnimation(1.4, makeCard(
+                    context: context,
+                    startColor: Color.fromRGBO(203, 251, 255, 1),
+                    endColor: Color.fromRGBO(81, 223, 234, 1),
+                    image: 'assets/socks-two.png'
+                  )),
+                    FadeAnimation(1.4, makeCard(
+                    context: context,
+                    startColor: Color.fromRGBO(203, 251, 255, 1),
+                    endColor: Color.fromRGBO(81, 223, 234, 1),
+                    image: 'assets/socks-two.png'
+                  ))
+                ],
+              ),
+            ),
               SizedBox(height: 20,),
               FadeAnimation(.5, 
               Text("Doctors", style: TextStyle(
@@ -98,9 +134,12 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.w600
               ),),),
               SizedBox(height: 20,),
-              DoctorsTile(),
-              SizedBox(height: 20,),
-              DoctorsTile1() 
+              FlatButton(child: Text('data'),
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
+              },),
+
+               
             ],
           ),
         ),
@@ -167,151 +206,72 @@ class SpecialistTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(24)
       ),
       padding: EdgeInsets.only(top: 16,right: 16,left: 16),
-      
-      child: Column(
+      child: FlatButton(child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(speciality, style: TextStyle(
+         Text(speciality, style: TextStyle(
             color: Colors.white,
             fontSize: 20
           ),),
+         
+          
           SizedBox(height: 6,),
           FadeAnimation(1, 
-          Text("$noOfDoctors Doctors", style: TextStyle(
+            Text("$noOfDoctors Doctors", style: TextStyle(
             color: Colors.white,
             fontSize: 13
-          ),),),
-          Image.asset(imgAssetPath, height: 160,fit: BoxFit.fitHeight,)
+          ),
+          ),
+       ),
+         
+        
+          
         ],
+      
       ),
+      onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Servicelist()));
+      },)
+      ,
+    
     );
   }
 }
 
-class DoctorsTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => DoctorsInfo()
-        ));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xffFFEEE0),
-          borderRadius: BorderRadius.circular(20)
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 24,
-        vertical: 18),
-        
-        child: Row(
-          children: <Widget>[
-            Image.asset("assets/doctor_pic.png", height: 50,),
-            SizedBox(width: 17,),
-            FadeAnimation(1, 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Dr. Adaobi Solarin", style: TextStyle(
-                  color: Color(0xffFC9535),
-                  fontSize: 19
-                ),),
-                SizedBox(height: 2,),
-                Text("Paedratic Speailist", style: TextStyle(
-                  fontSize: 15
-                ),)
+
+  Widget makeCard({context, startColor, endColor, image, icon}) {
+    return Container(
+  
+      
+       child: AspectRatio(
+        aspectRatio: 3/4,
+        child: Container(
+          margin: EdgeInsets.only(right: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(13.0),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              colors: [
+                startColor,
+                endColor
               ],
-            ),),
-            Spacer(),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15,
-              vertical: 9),
-              decoration: BoxDecoration(
-                color: Color(0xffFBB97C),
-                borderRadius: BorderRadius.circular(13)
-              ),
-              child: FlatButton(
-                child: Text("Call", style: TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w500
-              ),), onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Payment()),);
-                
-              }, ) 
-              
-            )
-          ],
-      
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[350],
+                blurRadius: 10,
+                offset: Offset(5, 10)
+              )
+            ]
+          ),
+          child:   Center(child: Text(image),),
+        
+        
+        
         ),
-      
       
       ),
-    ); 
+   
+      );
+ 
   }
-}
-
-
-class DoctorsTile1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => DoctorsInfo()
-        ));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xffFFEEE0),
-          borderRadius: BorderRadius.circular(20)
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 24,
-        vertical: 18),
-        
-        child: Row(
-          children: <Widget>[
-            Image.asset("assets/doctor_pic.png", height: 50,),
-            SizedBox(width: 17,),
-            FadeAnimation(1, 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Dr. Adaobi Solarin", style: TextStyle(
-                  color: Color(0xffFC9535),
-                  fontSize: 19
-                ),),
-                SizedBox(height: 2,),
-                Text("Paedratic Speailist", style: TextStyle(
-                  fontSize: 15
-                ),)
-              ],
-            ),),
-            Spacer(),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15,
-              vertical: 9),
-              decoration: BoxDecoration(
-                color: Color(0xffFBB97C),
-                borderRadius: BorderRadius.circular(13)
-              ),
-              child: FlatButton(
-                child: Text("Call", style: TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w500
-              ),), onPressed: (){
-                
-              }, ) 
-              
-            )
-          ],
-      
-        ),
-      
-      
-      ),
-    ); 
-  }
-}

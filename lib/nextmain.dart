@@ -3,7 +3,8 @@ import 'package:consultdocapp/Screens/Edit_profile.dart';
 
 import 'package:consultdocapp/Screens/Navbar.dart';
 import 'package:consultdocapp/Screens/Terms_Conditions_page.dart';
-import 'package:consultdocapp/Screens/ap.dart';
+
+import 'package:consultdocapp/Services/main.dart';
 import 'package:consultdocapp/Views/onboarding.dart';
 import 'package:consultdocapp/Services/phone_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class NextMain extends StatelessWidget {
           '/OTP': (BuildContext context) => LoginScreen(),
           '/Terms': (BuildContext context) =>TandC(),
           '/Ppst': (BuildContext context) =>ImageP(),
-          '/John': (BuildContext context) =>HomeView()     
+          
+          '/DocV': (BuildContext context) =>Doctor()     
         },
       ),
     );

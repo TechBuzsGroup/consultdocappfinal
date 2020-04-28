@@ -67,12 +67,12 @@ class _LoginDocState extends State<LoginDoc> {
         switch (authFormType) {
           case AuthFormTypeDoc.signIn:
             await auth.signInWithEmailAndPassword(_email, _password);
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushReplacementNamed('/DocV');
             break;
           case AuthFormTypeDoc.signUp:
             await auth.createUserWithEmailAndPassword(
                 _email, _password, _name);
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushReplacementNamed('/DocV');
             break;
           case AuthFormTypeDoc.reset:
             await auth.sendPasswordResetEmail(_email);
@@ -83,7 +83,7 @@ class _LoginDocState extends State<LoginDoc> {
             break;
           case AuthFormTypeDoc.anonymous:
             await auth.singInAnonymously();
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushReplacementNamed('/DocV');
             break;
           case AuthFormTypeDoc.convert:
             await auth.convertUserWithEmail(_email, _password, _name);
@@ -122,7 +122,7 @@ class _LoginDocState extends State<LoginDoc> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,  //m8Oq9ycK9VntE8mk8om5yoQbB10=   first one
                 children: <Widget>[
-                  Center(child: FadeAnimation(5, buildHeaderText() ,), ),
+                  Center(child: FadeAnimation(1, buildHeaderText() ,), ),
                   
                   SizedBox(height: 10,),
                   
