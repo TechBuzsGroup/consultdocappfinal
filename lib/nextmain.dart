@@ -1,4 +1,5 @@
 import 'package:consultdocapp/Login/DocSignIN.dart';
+import 'package:consultdocapp/Login/tesr.dart';
 import 'package:consultdocapp/Screens/Edit_profile.dart';
 
 import 'package:consultdocapp/Screens/Navbar.dart';
@@ -23,10 +24,11 @@ class NextMain extends StatelessWidget {
     return Provider(   
       auth: AuthService(),
       child: MaterialApp(
-        title: "Green Horizon",
+        title: "Consult Doc",
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
+
         home: HomeController(),
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => HomeController(),
@@ -39,7 +41,7 @@ class NextMain extends StatelessWidget {
           '/Terms': (BuildContext context) =>TandC(),
           '/Ppst': (BuildContext context) =>ImageP(),
           
-          '/DocV': (BuildContext context) =>Doctor()     
+          '/DocV': (BuildContext context) =>AfterLogin()     
         },
       ),
     );
@@ -55,7 +57,7 @@ class HomeController extends StatelessWidget {
       builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final bool signedIn = snapshot.hasData;
-          return signedIn ? BottomBarNavigationPatternExample() : OnboardingScreen();
+          return signedIn ? AfterLogin() : OnboardingScreen();
         }
         return CircularProgressIndicator();
       },

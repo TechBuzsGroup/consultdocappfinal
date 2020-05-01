@@ -1,18 +1,43 @@
 
+import 'package:consultdocapp/FInal_vidchat/enum/user_state.dart';
+import 'package:consultdocapp/FInal_vidchat/utils/utilities.dart';
 import 'package:consultdocapp/Login/user.dart';
-import 'package:consultdocapp/Services/database.dart';
+
 import 'package:consultdocapp/Views/locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:consultdocapp/Services/firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:consultdocapp/FInal_vidchat/constants/strings.dart';
+
+
+
 
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirestoreService _firestoreService = locator<FirestoreService>();
+static final Firestore firestore = Firestore.instance;
+  static final Firestore _firestore = Firestore.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+ 
+
+  static final CollectionReference _userCollection =
+      _firestore.collection(USERS_COLLECTION);
 
 
+  StorageReference _storageReference;
+
+ User user = User();
+
+  Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser currentUser;
+    currentUser = await _auth.currentUser();
+    return currentUser;
+  }
 
   User _currentUser;
   User get currentUser => _currentUser;
@@ -22,19 +47,49 @@ class AuthService {
             (FirebaseUser user) => user?.uid,
       );
 
+
+Future<User> getUserDetails() async {
+    FirebaseUser currentUser = await getCurrentUser();
+
+    DocumentSnapshot documentSnapshot =
+        await _userCollection.document(currentUser.uid).get();
+
+    return User.fromMap(documentSnapshot.data);
+  }
   // GET UID
   Future<String> getCurrentUID() async {
     return (await _firebaseAuth.currentUser()).uid;
   }
 
+  Future<User> getUserDetailsById(id) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await _userCollection.document(id).get();
+      return User.fromMap(documentSnapshot.data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
   // GET CURRENT USER
-  Future getCurrentUser() async {
-    return await _firebaseAuth.currentUser();
+  
+
+  
+ Future<bool> authenticateUser(FirebaseUser user) async {
+    QuerySnapshot result = await firestore
+        .collection(USERS_COLLECTION)
+        .where(EMAIL_FIELD, isEqualTo: user.email)
+        .getDocuments();
+
+    final List<DocumentSnapshot> docs = result.documents;
+
+    //if user is registered then length of list > 0 or else less than 0
+    return docs.length == 0 ? true : false;
   }
 
   // Email & Password Sign Up
   Future<String> createUserWithEmailAndPassword(String email, String password,
-      String name) async {
+      String name, ) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -44,7 +99,10 @@ class AuthService {
 _currentUser = User(
         id: authResult.user.uid,
         email: email,
-        displayname: name,
+        name: name,
+        uid: authResult.user.uid,
+        username: name,
+      
         
       );
     // Update the username
@@ -83,6 +141,58 @@ _currentUser = User(
     return _firebaseAuth.signInAnonymously();
   }
 
+
+  Future<FirebaseUser> signIn() async {
+    GoogleSignInAccount _signInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication _signInAuthentication =
+        await _signInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: _signInAuthentication.accessToken,
+        idToken: _signInAuthentication.idToken);
+
+    AuthResult result = await _auth.signInWithCredential(credential);
+    FirebaseUser user = result.user;
+    return user;
+  }
+
+
+
+
+  //Addd to DB
+
+  Future<void> addDataToDb(FirebaseUser currentUser, String token) async {
+    String username = Utils.getUsername(currentUser.email);
+
+    User user = User(
+      uid: currentUser.uid,
+      email: currentUser.email,
+      name: currentUser.displayName,
+      profilePhoto: currentUser.photoUrl,
+      firebaseToken: token,
+      username: username,
+    );
+
+    firestore
+        .collection(USERS_COLLECTION)
+        .document(currentUser.uid)
+        .setData(user.toMap(user));
+  }
+ 
+
+   Future<List<User>> fetchAllUsers(FirebaseUser currentUser) async {
+    List<User> userList = List<User>();
+
+    QuerySnapshot querySnapshot =
+        await firestore.collection(USERS_COLLECTION).getDocuments();
+    for (var i = 0; i < querySnapshot.documents.length; i++) {
+      if (querySnapshot.documents[i].documentID != currentUser.uid) {
+        userList.add(User.fromMap(querySnapshot.documents[i].data));
+      }
+    }
+    return userList;
+  }
+
   Future convertUserWithEmail(String email, String password, String name) async {
     final currentUser = await _firebaseAuth.currentUser();
 
@@ -115,25 +225,22 @@ _currentUser = User(
   }
 
   // APPLE
+  void setUserState({@required String userId, @required UserState userState}) {
+    int stateNum = Utils.stateToNum(userState);
 
+    _userCollection.document(userId).updateData({
+      "state": stateNum,
+    });
+  }
+
+  Stream<DocumentSnapshot> getUserStream({@required String uid}) =>
+      _userCollection.document(uid).snapshots();
 //Facebook
 
-
-
-  Future<bool> isUserLoggedIn() async {
-    var user = await _firebaseAuth.currentUser();
-    await _populateCurrentUser(user);
-    return user != null;
-  }
+ 
 
 
 
-
-Future _populateCurrentUser(FirebaseUser user) async {
-    if (user != null) {
-      _currentUser = await _firestoreService.getUser(user.uid);
-    }
-  }
 
 
 }

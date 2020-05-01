@@ -1,12 +1,9 @@
 import 'dart:async';
 
-import 'package:consultdocapp/Screens/homepage.dart';
 import 'package:consultdocapp/Services/firestore.dart';
 import 'package:consultdocapp/Services/task.dart';
-import 'package:consultdocapp/Services/taskscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class DoctorPage extends StatefulWidget {
@@ -46,11 +43,13 @@ class _DoctorPageState extends State<DoctorPage> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
+      
          SizedBox(height: 40,),
            Text('Doctors', textScaleFactor: 2,),
-          Container(
+              SingleChildScrollView(
+          child: Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 140,
+            height: MediaQuery.of(context).size.height - 200,
             child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
@@ -99,8 +98,10 @@ class _DoctorPageState extends State<DoctorPage> {
                                                 color: Colors.black,
                                                 fontSize: 16.0),
                                           ),
+                                        
                                         ],
                                       )
+                                    
                                     ],
                                   ),
                                 ),
@@ -110,27 +111,21 @@ class _DoctorPageState extends State<DoctorPage> {
                         ),
                       ),
                     ]),
+                   RaisedButton(
+          child: Text('Talk to a Doctor Now'),
+          color: Colors.blue,
+           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          onPressed: null,
+        )
                   ]);
                 }),
           ),
+       
+              ),
+       
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFFA7397),
-        child: Icon(
-          FontAwesomeIcons.listUl,
-          color: Color(0xFFFDDE42),
-        ),
-        onPressed: () {
-          //Navigator.push(context,MaterialPageRoute(builder: (context) => TaskScreen()),
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TaskScreen(Task('', '', '', '', '')),
-                fullscreenDialog: true),
-          );
-        },
-      ),
+
     );
   }
 
@@ -161,10 +156,5 @@ class _DoctorPageState extends State<DoctorPage> {
     );
   }
 
-  Widget _myAppBar(context) {
-    return Container(
 
-    );
-
-  }
 }

@@ -1,17 +1,19 @@
 
+import 'package:consultdocapp/Covid_19/main.dart';
+import 'package:consultdocapp/FInal_vidchat/main.dart';
+
+
 import 'package:consultdocapp/Screens/Service_breakdown.dart';
 import'package:consultdocapp/Payment/payments.dart';
-import 'package:consultdocapp/Screens/VideoChat/main.dart';
-import 'package:consultdocapp/Screens/VideoChat/screens/home_screen.dart';
-import'package:consultdocapp/Screens/h.dart';
+import 'package:consultdocapp/Screens/all_categories.dart';
+import 'package:consultdocapp/Screens/general_doctor.dart';
 
-import 'package:consultdocapp/info/data.dart';
+
 import 'package:consultdocapp/model/speciality.dart';
-import 'package:consultdocapp/Home/doctor_info.dart';
-import 'package:consultdocapp/widgets/src/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:consultdocapp/Animations/FadeAnimation.dart';
 import 'package:flutter/rendering.dart';
+import 'package:consultdocapp/Screens/see_doctors.dart';
 
 
 String selectedCategorie= "Children";
@@ -27,13 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   List<SpecialityModel> specialities;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-    specialities = getSpeciality();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,25 +88,28 @@ class _HomePageState extends State<HomePage> {
                   FadeAnimation(1.3, GestureDetector(
                     child: Container(child: makeCard(
                     context: context,
-                    startColor: Color.fromRGBO(251, 121, 155, 1),
+                    startColor: Color(0xFFFFFFFF),
                     endColor: Color.fromRGBO(251, 53, 105, 1),
-                    image: 'assets/socks-one.png',
-                    icon: 'Child Care'
+                    image: 'assets/images/odco.png',
+                    
                   ), ),
                       
                   onTap: () {
-                    Navigator.push(context, (MaterialPageRoute(builder: (context) => DocPay())));
+                    Navigator.push(context, (MaterialPageRoute(builder: (context) => ListDoc())));
                   },
                   )
                ),
-                  FadeAnimation(1.4, makeCard(
+                  FadeAnimation(1.4, GestureDetector(child: makeCard(
                     context: context,
-                    startColor: Color.fromRGBO(203, 251, 255, 1),
+                    startColor: Color(0xFF458c92),
                     endColor: Color.fromRGBO(81, 223, 234, 1),
-                    image: 'assets/socks-two.png',
+                    image: 'assets/images/firstslide.jpg',
                     icon: 'access_time'
                     
-                  )),
+                  ),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllCat(),));
+                  },) ),
                     FadeAnimation(1.4, makeCard(
                     context: context,
                     startColor: Color.fromRGBO(203, 251, 255, 1),
@@ -126,18 +125,50 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-              SizedBox(height: 20,),
-              FadeAnimation(.5, 
-              Text("Doctors", style: TextStyle(
-                  color: Colors.black87.withOpacity(0.8),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-              ),),),
-              SizedBox(height: 20,),
-              FlatButton(child: Text('data'),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
-              },),
+
+             
+
+             SizedBox(height: 60),
+                           Container(
+              height: 280,
+              width: double.infinity,
+              child: ListView(
+                padding: EdgeInsets.only(bottom: 20, left: 20),
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  FadeAnimation(1.3, GestureDetector(
+                    child: Container(child: makeflat(
+                    context: context,
+                    startColor: Color(0xFFFFFFFF),
+                    endColor: Color.fromRGBO(251, 53, 105, 1),
+                    image: 'assets/images/covidinfo.gif',
+                    
+                  ), ),
+                      
+                  onTap: () {
+                    Navigator.push(context, (MaterialPageRoute(builder: (context) => DocPay())));
+                  },
+                  )
+               ),
+                  
+                ],
+              ),
+            ),
+              
+              SizedBox(height: 30,),
+              Padding(padding: EdgeInsets.only(left:50, ),
+              child: RaisedButton(
+                    
+                    color: Colors.blue,
+                    onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Covid()));
+                    }
+                    ) ),
+                  SizedBox(height: 20),
+                  RaisedButton(child: Text('Lets Start '),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+                  },),
+               SizedBox(height: 20,)
 
                
             ],
@@ -249,13 +280,7 @@ class SpecialistTile extends StatelessWidget {
           margin: EdgeInsets.only(right: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(13.0),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              colors: [
-                startColor,
-                endColor
-              ],
-            ),
+           color: startColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey[350],
@@ -264,8 +289,39 @@ class SpecialistTile extends StatelessWidget {
               )
             ]
           ),
-          child:   Center(child: Text(image),),
+          child:   Center(child: Image.asset(image),),
         
+        
+        
+        ),
+      
+      ),
+   
+      );
+ 
+  }
+
+    Widget makeflat({context, startColor, endColor, image, icon}) {
+    return Container(
+  
+      
+       child: AspectRatio(
+        aspectRatio: 10/8,
+        child: Container(
+          margin: EdgeInsets.only(right: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(13.0),
+           color: startColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[350],
+                blurRadius: 10,
+                offset: Offset(5, 10)
+              )
+            ]
+          ),
+          child:   Center(child: Image.asset(image, height: 4000, width: 1200,),),
+
         
         
         ),

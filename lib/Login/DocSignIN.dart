@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:consultdocapp/Services/auth.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:consultdocapp/widgets/provider_widget.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:consultdocapp/Animations/FadeAnimation.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 
-// TODO move this to tone location
+
 enum AuthMode { SignupDoc, LoginDoc }
 
 final primaryColor = Colors.blue;
@@ -70,8 +68,7 @@ class _LoginDocState extends State<LoginDoc> {
             Navigator.of(context).pushReplacementNamed('/DocV');
             break;
           case AuthFormTypeDoc.signUp:
-            await auth.createUserWithEmailAndPassword(
-                _email, _password, _name);
+           
             Navigator.of(context).pushReplacementNamed('/DocV');
             break;
           case AuthFormTypeDoc.reset:
@@ -104,9 +101,7 @@ class _LoginDocState extends State<LoginDoc> {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of(context).auth;
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+ 
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -233,7 +228,6 @@ class _LoginDocState extends State<LoginDoc> {
 
 AutoSizeText buildHeaderText() {
     String _headerText;
-    String _headerText1;
     if (authFormType == AuthFormTypeDoc.signIn) {
       _headerText = "Doctor\nSign In";
      
@@ -320,27 +314,15 @@ AutoSizeText buildHeaderText() {
   }
 
   List<Widget> buildButtons() {
-    String _switchButtonText, _newFormState, _submitButtonText;
-    bool _showForgotPassword = false;
-    bool _showSocial = true;
+    String _submitButtonText;
 
     if (authFormType == AuthFormTypeDoc.signIn) {
-      _switchButtonText = "";
-      _newFormState = "";
       _submitButtonText = "Sign In";
-      _showForgotPassword = true;
     } else if (authFormType == AuthFormTypeDoc.reset) {
-      _switchButtonText = "Return to Sign In";
-      _newFormState = "signIn";
       _submitButtonText = "Submit";
-      _showSocial = false;
     } else if (authFormType == AuthFormTypeDoc.convert) {
-      _switchButtonText = "Cancel";
-      _newFormState = "home";
       _submitButtonText = "Sign Up";
     } else {
-      _switchButtonText = "Have an Account? Sign In";
-      _newFormState = "signIn";
       _submitButtonText = "Sign Up";
     }
 
@@ -370,7 +352,6 @@ AutoSizeText buildHeaderText() {
     List<Widget> buildOre() {
     String _switchButtonText;
     bool _showForgotPassword = false;
-    bool _showSocial = true;
 
     if (authFormType == AuthFormTypeDoc.signIn) {
       _switchButtonText = "Create New Account";
@@ -379,7 +360,6 @@ AutoSizeText buildHeaderText() {
     } else if (authFormType == AuthFormTypeDoc.reset) {
       _switchButtonText = "Return to Sign In";
   
-      _showSocial = false;
     } else if (authFormType == AuthFormTypeDoc.convert) {
       _switchButtonText = "Cancel";
 

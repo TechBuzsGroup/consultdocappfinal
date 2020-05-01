@@ -1,12 +1,9 @@
-import 'package:consultdocapp/Facebook.dart';
 import 'package:flutter/material.dart';
 import 'package:consultdocapp/Services/auth.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:consultdocapp/widgets/provider_widget.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:consultdocapp/Animations/FadeAnimation.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:consultdocapp/Services/fb.dart';
+
 
 // TODO move this to tone location
 enum AuthMode { Signup, Login }
@@ -71,7 +68,8 @@ class _LoginState extends State<Login> {
             Navigator.of(context).pushReplacementNamed('/home');
             break;
           case AuthFormType.signUp:
-            await auth.createUserWithEmailAndPassword(
+            await auth.createUserWithEmailAndPassword
+            (
                 _email, _password, _name);
             Navigator.of(context).pushReplacementNamed('/home');
             break;
@@ -106,8 +104,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of(context).auth;
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+ 
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -388,7 +385,6 @@ AutoSizeText buildHeaderText() {
   List<Widget> buildButtons() {
     String _switchButtonText, _newFormState, _submitButtonText;
     bool _showForgotPassword = false;
-    bool _showSocial = true;
 
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = "Create New Account";
@@ -399,7 +395,6 @@ AutoSizeText buildHeaderText() {
       _switchButtonText = "Return to Sign In";
       _newFormState = "signIn";
       _submitButtonText = "Submit";
-      _showSocial = false;
     } else if (authFormType == AuthFormType.convert) {
       _switchButtonText = "Cancel";
       _newFormState = "home";
@@ -445,7 +440,6 @@ AutoSizeText buildHeaderText() {
     List<Widget> buildOre() {
     String _switchButtonText;
     bool _showForgotPassword = false;
-    bool _showSocial = true;
 
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = "Create New Account";
@@ -454,7 +448,6 @@ AutoSizeText buildHeaderText() {
     } else if (authFormType == AuthFormType.reset) {
       _switchButtonText = "Return to Sign In";
   
-      _showSocial = false;
     } else if (authFormType == AuthFormType.convert) {
       _switchButtonText = "Cancel";
 
